@@ -42,7 +42,7 @@ def HDPRunner(args):
 
 
     ################# Data generatati
-    temp_file = open(project_path+'data/'+datasetname+'/ready.txt', 'rb')
+    temp_file = open(project_path+'data/'+datasetname+'/texts.pk', 'rb')
     texts = pk.load(temp_file)
     temp_file.close()
 
