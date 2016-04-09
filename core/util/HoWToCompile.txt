@@ -1,0 +1,8 @@
+
+Compiling cstat.pyx
+
+cython cstats.pyx 
+g++  -shared -pthread -fPIC  -O3 -w -Wall  -I[PATH-TO pyconfig.h]  -o cstats.so cstats.c
+
+for me :
+g++  -shared -pthread -fPIC  -O3 -w -Wall  -I/home/kayhan/anaconda/include/python2.7  -o cstats.so cstats.c
