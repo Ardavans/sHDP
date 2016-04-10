@@ -198,8 +198,7 @@ def HDPRunner(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="""This program runs sHDP on a prepared corpus.
     sample argument setting is as follows:
-    python runner.py -is 1 -alpha 1 -gamma 2 -Nmax 40 -kappa_sgd 0.6 -tau 0.8
-     -mbsize 10 -dataset nips
+    python runner.py -is 1 -alpha 1 -gamma 2 -Nmax 40 -kappa_sgd 0.6 -tau 0.8 -mbsize 10 -dataset nips
     """, formatter_class=RawTextHelpFormatter)
     parser.add_argument('-is', '--infSeed', help='Seed for running the model', type = np.int32, required=True)
     parser.add_argument('-alpha', '--alpha', help='alpha hyperparameter for the low level stick breaking process', type = np.float,

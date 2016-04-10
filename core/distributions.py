@@ -412,7 +412,7 @@ class vonMisesFisherLogNormal(_vonMisesFisherBase, GibbsSampling, MeanField, Mea
 
     def resample(self,data=[]):
         if data==[]:
-            warn('data is empty, we are resampling from prior !!')
+            #warn('data is empty, we are resampling from prior !!')
             D = len(self.mu_0.squeeze())
             self.mu = sample_vMF(self.mu_0,self.C_0)
             kappa_samples =  np.random.lognormal(mean=self.m_0, sigma=self.sigma_0, size=10000)
