@@ -13,7 +13,7 @@ from HDP.util.general import sgd_passes
 from HDP.util.text import progprint
 import operator
 
-project_path =  ''#'/Users/kayhan/Projects/clean_sHDP/'
+project_path =  ''
 results_path = project_path+'results/'
 
 def HDPRunner(args):
@@ -36,8 +36,7 @@ def HDPRunner(args):
     results_file_noncnt = results_path+datasetname+'/topics_noncnt_infseed_' + str(infseed)+ '_K_'+ str(K) +\
                    '_alpha_' + str(alpha) + '_gamma_' + str(gamma) + '_kappa_sgd_' +\
                    str(kappa_sgd)+ '_tau_'+ str(tau)+ '_mbsize_' + str(mbsize) +'.txt'
-    # results_file = 'topics_cntbased.txt'
-    # results_file_noncnt = 'topics_noncntbased.txt'
+
 
 
 
@@ -126,9 +125,7 @@ def HDPRunner(args):
     sgdseq = sgd_passes(tau=tau,kappa=kappa_sgd,datalist=real_data,minibatchsize=mbsize, npasses= 1)
     for t, (data, rho_t) in progprint(enumerate(sgdseq)):
         HDP.meanfield_sgdstep(data, np.array(data).shape[0] / np.float(training_size), rho_t)
-        # if (t + 1) % (num_docs /mbsize) == 0:
-        #     scores.append(HDP.log_likelihood([i[0] for i in real_data[-50:]], [i[1] for i in real_data[-50:]]))
-        #     print 'score: ', scores[-1]
+
 
 
 
