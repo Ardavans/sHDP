@@ -1,2 +1,2 @@
-import distributions
-import abstractions
+import HDP.basic.distributions
+import HDP.basic.abstractions

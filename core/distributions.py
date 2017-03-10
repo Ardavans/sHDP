@@ -14,12 +14,13 @@ from warnings import warn
 import time as time
 
 
-from abstractions import Distribution, BayesianDistribution, \
+from core.abstractions import Distribution, BayesianDistribution, \
         GibbsSampling, MeanField, MeanFieldSVI, Collapsed, MaxLikelihood, MAP
-from util.stats import sample_niw, sample_invwishart, invwishart_entropy, sample_vMF,\
+from stats import sample_niw, sample_invwishart, invwishart_entropy, sample_vMF,\
         invwishart_log_partitionfunction, sample_discrete, sample_pareto,\
         sample_discrete_from_log, getdatasize, flattendata,\
         getdatadimension, combinedata, multivariate_t_loglik, gi, atleast_2d
+from core.models import * 
 #from util.cstats import sample_crp_tablecounts
 
 
@@ -166,11 +167,11 @@ class _vonMisesFisherBase(object):
         size = 1 if size is None else size
         #size = size + (self.mu.shape[0],) if isinstance(size,tuple) else (size,self.mu.shape[0])
         #return sample_vMF(self.mu, self.kappa , size )
-        print "**** inside rvs, size : ", size
+        print ("**** inside rvs, size : " + str(size))
         if size>0:
             return sample_vMF(self.mu, self.kappa , size=size ) 
         else:
-            print "empty!"
+            print ("empty!")
             return np.empty((0,1))
 
 
@@ -335,7 +336,7 @@ class vonMisesFisherLogNormal(_vonMisesFisherBase, GibbsSampling, MeanField, Mea
                 #else:
                     #print "."
 
-            print "Ratio:", (cnt + 0.0)/(0.0 + totalCnt)
+            print ("Ratio: " + str((cnt + 0.0)/(0.0 + totalCnt)))
             #print "kappa : ", samples
 
             _mean_samples = ( samples[burnIn:] ).mean()
@@ -373,7 +374,7 @@ class vonMisesFisherLogNormal(_vonMisesFisherBase, GibbsSampling, MeanField, Mea
                                     _mean_log_samples,
                                     _mean_logSquared_samples,
                                     _mean_entropy_samples    ] ) )):
-                print "there is a nan: "
+                print ("there is a nan: ")
 
             return  np.random.choice( samples, p=ISweights ),\
                     _mean_samples,\
@@ -550,10 +551,10 @@ class vonMisesFisherLogNormal(_vonMisesFisherBase, GibbsSampling, MeanField, Mea
                     -self._Expected_log_kappa -0.5*np.log(2*np.pi*self.sigma_0**2) -1./(2*self.sigma_0**2)*( self._Expected_log_kappa_squared -2.*self.m_0*self._Expected_log_kappa + self.m_0**2  )
 
         if  np.isinf(q_entropy) or np.isnan(q_entropy):
-            print "q_entropy is weird !"
+            print ("q_entropy is weird !")
 
         if  np.isinf(p_avgengy) or np.isnan(p_avgengy):
-            print "p_avgengy is weird !"
+            print ("p_avgengy is weird !")
 
 
         return p_avgengy + q_entropy

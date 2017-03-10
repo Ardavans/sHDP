@@ -4,8 +4,15 @@ from numpy.lib.stride_tricks import as_strided as ast
 import scipy.linalg
 import copy, collections, os, shutil
 from contextlib import closing
-from urllib2 import urlopen
-from itertools import izip, chain, count, ifilter
+try:
+    from urllib.request import urlopen #python 3
+except ImportError:
+    from urllib2 import urlopen #python 2
+from itertools import chain, count
+try:    
+    from itertools import izip, ifilter # python 2
+except ImportError:
+    izip = zip #python 3 has no izip, and ifilter is just filter()
 
 def solve_psd(A,b,chol=None,overwrite_b=False,overwrite_A=False):
     if A.shape[0] < 5000 and chol is None:
@@ -145,8 +152,12 @@ def _sieve(stream):
     # just for fun; doesn't work over a few hundred
     val = stream.next()
     yield val
-    for x in ifilter(lambda x: x%val != 0, _sieve(stream)):
-        yield x
+    try: #python 2
+        for x in ifilter(lambda x: x%val != 0, _sieve(stream)):
+            yield x
+    except NameError: #python 3
+        for x in filter(lambda x: x%val != 0, _sieve(stream)):
+            yield x
 
 def primes():
     return _sieve(count(2))
@@ -172,7 +183,10 @@ def top_eigenvector(A,niter=1000,force_iteration=False):
     else:
         x1 = np.repeat(1./n,n)
         x2 = x1.copy()
-        for itr in xrange(niter):
+        #Python2 uses xrange:
+        #for itr in xrange(niter):
+        #Try just 'range' for python3
+        for itr in range(niter):
             np.dot(A.T,x1,out=x2)
             x2 /= x2.sum()
             x1,x2 = x2,x1
@@ -196,8 +210,12 @@ def count_transitions(stateseq,minlength=None):
     if minlength is None:
         minlength = stateseq.max() + 1
     out = np.zeros((minlength,minlength),dtype=np.int32)
-    for a,b in izip(stateseq[:-1],stateseq[1:]):
-        out[a,b] += 1
+    try:
+        for a,b in izip(stateseq[:-1],stateseq[1:]): #python 2 izip
+            out[a,b] += 1
+    except NameError: #python 3 zip
+        for a,b in zip(stateseq[:-1],stateseq[1:]):
+            out[a,b] += 1
     return out
 
 ### SGD
@@ -215,16 +233,28 @@ def hold_out(datalist,frac):
 
 def sgd_passes(tau,kappa,datalist,minibatchsize=1,npasses=1):
     N = len(datalist)
-
-    for superitr in xrange(npasses):
-        if minibatchsize == 1:
-            perm = np.random.permutation(N)
-            for idx, rho_t in izip(perm,sgd_steps(tau,kappa)):
-                yield datalist[idx], rho_t
-        else:
-            minibatch_indices = np.array_split(np.random.permutation(N),N/minibatchsize)
-            for indices, rho_t in izip(minibatch_indices,sgd_steps(tau,kappa)):
-                yield [datalist[idx] for idx in indices], rho_t
+    #python 2 xrange
+    #for superitr in xrange(npasses):
+    #python 3 range
+    for superitr in range(npasses):
+        try: #python2
+            if minibatchsize == 1:
+                perm = np.random.permutation(N)
+                for idx, rho_t in izip(perm,sgd_steps(tau,kappa)):
+                    yield datalist[idx], rho_t
+            else:
+                minibatch_indices = np.array_split(np.random.permutation(N),N/minibatchsize)
+                for indices, rho_t in izip(minibatch_indices,sgd_steps(tau,kappa)):
+                    yield [datalist[idx] for idx in indices], rho_t
+        except NameError: #python3
+            if minibatchsize == 1:
+                    perm = np.random.permutation(N)
+                    for idx, rho_t in zip(perm,sgd_steps(tau,kappa)):
+                        yield datalist[idx], rho_t
+            else:
+                minibatch_indices = np.array_split(np.random.permutation(N),N/minibatchsize)
+                for indices, rho_t in zip(minibatch_indices,sgd_steps(tau,kappa)):
+                    yield [datalist[idx] for idx in indices], rho_t            
 
 def sgd_sampling(tau,kappa,datalist,minibatchsize=1):
     N = len(datalist)
@@ -245,7 +275,10 @@ def minibatchsize(lst):
 
 def random_subset(lst,sz):
     perm = np.random.permutation(len(lst))
-    return [lst[perm[idx]] for idx in xrange(sz)]
+    #python 2 xrange
+    #return [lst[perm[idx]] for idx in xrange(sz)]
+    #python 3 range
+    return [lst[perm[idx]] for idx in range(sz)]
 
 def get_file(remote_url,local_path):
     if not os.path.isfile(local_path):

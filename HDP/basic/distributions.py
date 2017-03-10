@@ -5,7 +5,13 @@ import scipy.special as special
 
 from core.distributions import *
 from core.models import MixtureDistribution
+
+### its not finding abstraction for py34
+import os, sys
+scriptpath = "/Users/hclent/Desktop/sHDP/HDP/basic"
+sys.path.append(os.path.abspath(scriptpath))
 from abstractions import DurationDistribution
+#import abstractions
 
 ##############################################
 #  Mixins for making duratino distributions  #

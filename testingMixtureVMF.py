@@ -8,7 +8,7 @@ Created on Fri Feb 26 14:30:37 2016
 import os
 import sys
 
-print "Hello ..."
+print("Hello ...")
 
 sys.path.append('/Users/kayhan/Projects/clean_sHDP/')
 
@@ -90,7 +90,7 @@ priormodel = models.Mixture(alpha_0=alpha_0,
 data = np.load('data/simpleMixture.npy')
 
 
-print "weight : ", priormodel.weights.weights
+print("weight : " + str(priormodel.weights.weights))
 
 
 #del priormodel
@@ -117,12 +117,12 @@ allscores = [] # variational lower bounds on the marginal data log likelihood
 allmodels = []
 for superitr in range(5):
     # Gibbs sampling to wander around the posterior
-    print 'Gibbs Sampling'
+    print('Gibbs Sampling')
     for itr in progprint_xrange(100):
         posteriormodel.resample_model()
 
     # mean field to lock onto a mode
-    print 'Mean Field'
+    print('Mean Field')
     scores = [posteriormodel.meanfield_coordinate_descent_step()
                 for itr in progprint_xrange(100)]
 
