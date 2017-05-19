@@ -7,10 +7,10 @@ import scipy.special as special
 import abc, copy
 from warnings import warn
 
-from core.abstractions import ModelGibbsSampling, ModelMeanField, ModelEM
-from core.abstractions import Distribution, GibbsSampling, MeanField, Collapsed, MeanFieldSVI, MaxLikelihood
+from core.core_abstractions import ModelGibbsSampling, ModelMeanField, ModelEM
+from core.core_abstractions import Distribution, GibbsSampling, MeanField, Collapsed, MeanFieldSVI, MaxLikelihood
 # from distributions import Categorical, CategoricalAndConcentration
-from core.distributions import *
+from core.core_distributions import *
 from stats import getdatasize
 import scipy as sc
 from time import time
@@ -18,8 +18,10 @@ from time import time
 #append local path
 #from internals.labels import Labels
 import os, sys
-scriptpath = "/Users/hclent/Desktop/sHDP/core/internals"
-sys.path.append(os.path.abspath(scriptpath))
+current_path = os.path.abspath(os.path.dirname(__file__))
+
+scriptpath = os.path.abspath(os.path.join(os.path.dirname( __file__ ), 'internals'))
+sys.path.append(scriptpath)
 from labels import Labels
 
 

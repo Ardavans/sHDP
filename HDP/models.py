@@ -2,10 +2,10 @@ from __future__ import division
 import numpy as np
 from numpy import newaxis as na
 
-from core.abstractions import Model, ModelMeanField, ModelMeanFieldSVI
+from core.core_abstractions import Model, ModelMeanField, ModelMeanFieldSVI
 import os, sys
-scriptpath = "/Users/hclent/Desktop/sHDP/HDP/internals"
-sys.path.append(os.path.abspath(scriptpath))
+scriptpath = os.path.abspath(os.path.join(os.path.dirname(__file__), 'internals'))
+sys.path.append(scriptpath)
 #from internals import hmm_states, transitions
 import hmm_states, transitions
 

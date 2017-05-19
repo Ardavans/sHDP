@@ -14,13 +14,13 @@ from warnings import warn
 import time as time
 
 
-from core.abstractions import Distribution, BayesianDistribution, \
+from core.core_abstractions import Distribution, BayesianDistribution, \
         GibbsSampling, MeanField, MeanFieldSVI, Collapsed, MaxLikelihood, MAP
 from stats import sample_niw, sample_invwishart, invwishart_entropy, sample_vMF,\
         invwishart_log_partitionfunction, sample_discrete, sample_pareto,\
         sample_discrete_from_log, getdatasize, flattendata,\
         getdatadimension, combinedata, multivariate_t_loglik, gi, atleast_2d
-from core.models import * 
+from core.core_models import * 
 #from util.cstats import sample_crp_tablecounts
 
 

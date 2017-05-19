@@ -3,7 +3,7 @@
 import argparse
 from argparse import RawTextHelpFormatter
 from collections import Counter
-from core.distributions import  vonMisesFisherLogNormal
+from core.core_distributions import  vonMisesFisherLogNormal
 import csv
 import sys
 import pickle as pk
@@ -17,9 +17,6 @@ project_path =  ''
 results_path = project_path+'results/'
 
 def HDPRunner(args):
-
-
-
     num_dim = 50
     infseed = args['infSeed'] #1
     K = args['Nmax']
@@ -168,9 +165,12 @@ def HDPRunner(args):
         if len(topics_dict[t]) > 5:
             top_ordered_words = topics_dict[t][:20]
             #print top_ordered_words
-            #'str' does not support the puffer interface py34
-            topic_file.write(' '.join([i[0] for i in top_ordered_words]))
-            topic_file.write('\n')
+            #'str' does not support the buffer interface py34
+            str_to_write = (' '.join([i[0] for i in top_ordered_words]))
+            topic_file.write(str_to_write.encode('UTF-8'))
+            topic_file.write('\n'.encode('UTF-8'))
+            # topic_file.write(' '.join([i[0] for i in top_ordered_words]))
+            # topic_file.write('\n')
     topic_file.close()
 
     ###prob based topics
@@ -197,9 +197,10 @@ def HDPRunner(args):
     topic_file = open(results_file_noncnt, 'wb')
     for t in range(K):
         if len(sorted_topics_dict[t]) > 5:
-            top_ordered_words = sorted_topics_dict[t][:20]
-            topic_file.write(' '.join([i[0] for i in top_ordered_words]))
-            topic_file.write('\n')
+            top_ordered_words = sorted_topics_dict[t][:20] #
+            str_to_write = (' '.join([i[0] for i in top_ordered_words]))
+            topic_file.write(str_to_write.encode('UTF-8')) #python 3 will only write bytes; py2 writes str and bytes
+            topic_file.write('\n'.encode('UTF-8'))
     topic_file.close()
 
 
