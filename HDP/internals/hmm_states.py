@@ -107,7 +107,10 @@ class HDPStates(_HDPStatesBase):
         state_distn = self.trans_matrix[doc_num, :]
 
         stateseq = np.zeros(T,dtype=np.int32)
-        for idx in xrange(T):
+        #python 2 xrange
+        #for idx in xrange(T):
+        #python 3 just range
+        for idx in range(T):
             stateseq[idx] = sample_discrete(state_distn)
 
         self.stateseq = stateseq
@@ -155,7 +158,10 @@ class HDPStates(_HDPStatesBase):
         stateseq = np.empty(T,dtype=np.int32)
 
         nextstate_unsmoothed = trans_matrix_docnum
-        for idx in xrange(T):
+        #python 2 xrange
+        #for idx in xrange(T):
+        #python 3 range
+        for idx in range(T):
             logdomain = aBl[idx]
             logdomain[nextstate_unsmoothed == 0] = -np.inf
             if np.any(np.isfinite(logdomain)):

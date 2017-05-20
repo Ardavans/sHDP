@@ -26,10 +26,10 @@ def show_timings(stream=None):
         name_lens = max(len(name) for _, name, _, _, _, _ in results)
 
         fmt = '{:>%d} {:>%d} {:>10} {:>10} {:>10} {:>10}' % (filename_lens, name_lens)
-        print >>stream, fmt.format('file','name','ncalls','tottime','avg time','std dev')
+        print (>>stream, fmt.format('file','name','ncalls','tottime','avg time','std dev'))
 
         fmt = '{:>%d} {:>%d} {:>10} {:>10.3} {:>10.3} {:>10.3}' % (filename_lens, name_lens)
-        print >>stream, '\n'.join(fmt.format(*tup) for tup in sorted(results))
+        print (>>stream, '\n'.join(fmt.format(*tup) for tup in sorted(results)))
 
 ### use @line_profiled for a thin wrapper around line_profiler
 

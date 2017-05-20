@@ -2,10 +2,12 @@ from __future__ import division
 import numpy as np
 from numpy import newaxis as na
 
-from HDP.basic.abstractions import Model, ModelMeanField, ModelMeanFieldSVI
-from HDP.internals import hmm_states, \
-        transitions
-
+from core.core_abstractions import Model, ModelMeanField, ModelMeanFieldSVI
+import os, sys
+scriptpath = os.path.abspath(os.path.join(os.path.dirname(__file__), 'internals'))
+sys.path.append(scriptpath)
+#from internals import hmm_states, transitions
+import hmm_states, transitions
 
 
 
@@ -139,7 +141,7 @@ class _HDPSVI(_HDPBase,ModelMeanFieldSVI):
 
         ## take a global step on the parameters
         self._meanfield_sgdstep_parameters(mb_states_list,minibatchfrac,stepsize)
-        print ""
+        print ("")
     def _get_mb_states_list(self,minibatch,**kwargs):
         minibatch = minibatch if isinstance(minibatch,list) else [minibatch]
         mb_states_list = []

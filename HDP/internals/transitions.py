@@ -24,7 +24,10 @@ class _HDPMatrixBase(object):
                     for n in range(num_docs)] # sample from prior
         elif None not in (alpha,self.N) or (alphav is not None and alphav.ndim == 2):
             self._row_distns = [Multinomial(alpha_0=alpha,K=self.N,alphav_0=alphav[n,:])
-                    for n in xrange(self.N)] # sample from prior
+                    #python 2 xrange
+                    #for n in xrange(self.N)] # sample from prior
+                    #python 3
+                    for n in range(self.N)] # sample from prior 
 
     @property
     def trans_matrix(self):

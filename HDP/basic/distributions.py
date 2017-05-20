@@ -3,9 +3,15 @@ import numpy as np
 import scipy.stats as stats
 import scipy.special as special
 
-from core.distributions import *
-from core.models import MixtureDistribution
+from core.core_distributions import *
+from core.core_models import MixtureDistribution
+
+### its not finding abstraction for py34
+import os, sys
+scriptpath = os.path.abspath(os.path.join(os.path.dirname(__file__), 'basic'))
+sys.path.append(scriptpath)
 from abstractions import DurationDistribution
+#import abstractions
 
 ##############################################
 #  Mixins for making duratino distributions  #

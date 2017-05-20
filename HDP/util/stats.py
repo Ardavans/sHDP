@@ -1,5 +1,8 @@
 from __future__ import division
-from itertools import izip
+try:    
+    from itertools import izip # python 2
+except ImportError:
+    izip = zip #python 3 has no izip, and ifilter is just filter()
 import numpy as np
 from numpy.random import random
 na = np.newaxis
@@ -107,8 +110,12 @@ def diag_whiten(datalist):
 
 def count_transitions(stateseq, num_states):
     out = np.zeros((num_states,num_states),dtype=np.int32)
-    for i,j in izip(stateseq[:-1],stateseq[1:]):
-        out[i,j] += 1
+    try: #python2
+        for i,j in izip(stateseq[:-1],stateseq[1:]):
+            out[i,j] += 1
+    except NameError: #python3
+        for i,j in zip(stateseq[:-1],stateseq[1:]):
+            out[i,j] += 1
     return out
 
 ### Sampling functions

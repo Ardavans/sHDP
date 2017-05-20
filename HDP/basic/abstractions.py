@@ -3,7 +3,7 @@ import abc
 import numpy as np
 from matplotlib import pyplot as plt
 
-from core.abstractions import *
+from core.core_abstractions import *
 import HDP
 from HDP.util.stats import flattendata, sample_discrete, sample_discrete_from_log, combinedata
 from HDP.util.general import rcumsum

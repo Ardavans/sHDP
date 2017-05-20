@@ -7,14 +7,22 @@ import scipy.special as special
 import abc, copy
 from warnings import warn
 
-from abstractions import ModelGibbsSampling, ModelMeanField, ModelEM
-from abstractions import Distribution, GibbsSampling, MeanField, Collapsed, \
-        MeanFieldSVI, MaxLikelihood
-from distributions import Categorical, CategoricalAndConcentration
-from internals.labels import Labels
-from util.stats import getdatasize
+from core.core_abstractions import ModelGibbsSampling, ModelMeanField, ModelEM
+from core.core_abstractions import Distribution, GibbsSampling, MeanField, Collapsed, MeanFieldSVI, MaxLikelihood
+# from distributions import Categorical, CategoricalAndConcentration
+from core.core_distributions import *
+from stats import getdatasize
 import scipy as sc
 from time import time
+#Trying to get it to work for py34
+#append local path
+#from internals.labels import Labels
+import os, sys
+current_path = os.path.abspath(os.path.dirname(__file__))
+
+scriptpath = os.path.abspath(os.path.join(os.path.dirname( __file__ ), 'internals'))
+sys.path.append(scriptpath)
+from labels import Labels
 
 
 
